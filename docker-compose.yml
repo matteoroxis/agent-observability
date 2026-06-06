@@ -1,0 +1,12 @@
+services:
+
+  # Jaeger all-in-one: trace backend + UI + OTLP collector in one container.
+  # Open http://localhost:16686 to browse traces after starting the application.
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "4317:4317"     # OTLP gRPC receiver
+      - "4318:4318"     # OTLP HTTP receiver  ← application.properties points here
