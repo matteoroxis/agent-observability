@@ -15,11 +15,23 @@
     <artifactId>agent-observability</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>agent-observability</name>
-    <description>Observability in multi-agent systems with OpenTelemetry — demo for foojay.io</description>
+    <description>Observability in multi-agent systems with OpenTelemetry</description>
 
     <properties>
         <java.version>25</java.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -56,6 +68,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Spring AI — OpenAI chat model (ChatClient + auto-configuration) -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
     </dependencies>
 
