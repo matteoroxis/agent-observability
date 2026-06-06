@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Retrieval Agent: calls GPT-4o-mini to synthesize relevant context from the
+ * Retrieval Agent: calls Claude Haiku 4.5 to synthesize relevant context from the
  * knowledge base based on the user query.
  *
  * Token counts and document IDs are recorded as span attributes following the
@@ -52,8 +52,8 @@ public class RetrievalAgentService {
         Span retrievalSpan = tracer.spanBuilder("chat retrieval-agent")
                 .setSpanKind(SpanKind.CLIENT)
                 .setAttribute("gen_ai.operation.name", "chat")
-                .setAttribute("gen_ai.system", "openai")
-                .setAttribute("gen_ai.request.model", "gpt-4o-mini")
+                .setAttribute("gen_ai.system", "anthropic")
+                .setAttribute("gen_ai.request.model", "claude-haiku-4-5")
                 .setAttribute("gen_ai.request.temperature", 0.0)
                 .setAttribute("agent.name", "retrieval-agent")
                 .startSpan();
@@ -64,8 +64,8 @@ public class RetrievalAgentService {
             ChatResponse chatResponse = chatClient.prompt()
                     .system(SYSTEM_PROMPT)
                     .user(userQuery)
-                    .options(OpenAiChatOptions.builder()
-                            .model("gpt-4o-mini")
+                    .options(AnthropicChatOptions.builder()
+                            .model("claude-haiku-4-5")
                             .temperature(0.0)
                             .build())
                     .call()

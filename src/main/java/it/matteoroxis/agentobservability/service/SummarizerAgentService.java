@@ -11,11 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.stereotype.Service;
 
 /**
- * Summarizer Agent: calls GPT-4o to compose the final user-facing reply
+ * Summarizer Agent: calls Claude Haiku 4.5 to compose the final user-facing reply
  * from the policy decision and the retrieved context.
  *
  * The span captures the handoff reason and the tool name so that the
@@ -44,8 +44,8 @@ public class SummarizerAgentService {
         Span summarizerSpan = tracer.spanBuilder("chat summarizer-agent")
                 .setSpanKind(SpanKind.CLIENT)
                 .setAttribute("gen_ai.operation.name", "chat")
-                .setAttribute("gen_ai.system", "openai")
-                .setAttribute("gen_ai.request.model", "gpt-4o")
+                .setAttribute("gen_ai.system", "anthropic")
+                .setAttribute("gen_ai.request.model", "claude-haiku-4-5")
                 .setAttribute("gen_ai.request.temperature", 0.7)
                 .setAttribute("agent.name", "summarizer-agent")
                 .startSpan();
@@ -67,8 +67,8 @@ public class SummarizerAgentService {
             ChatResponse chatResponse = chatClient.prompt()
                     .system(SYSTEM_PROMPT)
                     .user(userMessage)
-                    .options(OpenAiChatOptions.builder()
-                            .model("gpt-4o")
+                    .options(AnthropicChatOptions.builder()
+                            .model("claude-haiku-4-5")
                             .temperature(0.7)
                             .build())
                     .call()

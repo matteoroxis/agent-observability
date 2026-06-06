@@ -11,11 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.stereotype.Service;
 
 /**
- * Policy Agent: calls GPT-4o to evaluate compliance of the user request
+ * Policy Agent: calls Claude Haiku 4.5 to evaluate compliance of the user request
  * against company policies and returns an APPROVED/DENIED decision.
  *
  * Token counts and the policy version are recorded as span attributes so that
@@ -48,8 +48,8 @@ public class PolicyAgentService {
         Span policySpan = tracer.spanBuilder("chat policy-agent")
                 .setSpanKind(SpanKind.CLIENT)
                 .setAttribute("gen_ai.operation.name", "chat")
-                .setAttribute("gen_ai.system", "openai")
-                .setAttribute("gen_ai.request.model", "gpt-4o")
+                .setAttribute("gen_ai.system", "anthropic")
+                .setAttribute("gen_ai.request.model", "claude-haiku-4-5")
                 .setAttribute("gen_ai.request.temperature", 0.2)
                 .setAttribute("agent.name", "policy-agent")
                 .startSpan();
@@ -68,8 +68,8 @@ public class PolicyAgentService {
             ChatResponse chatResponse = chatClient.prompt()
                     .system(SYSTEM_PROMPT)
                     .user(userMessage)
-                    .options(OpenAiChatOptions.builder()
-                            .model("gpt-4o")
+                    .options(AnthropicChatOptions.builder()
+                            .model("claude-haiku-4-5")
                             .temperature(0.2)
                             .build())
                     .call()

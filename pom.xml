@@ -70,10 +70,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring AI — OpenAI chat model (ChatClient + auto-configuration) -->
+        <!-- Spring AI — Anthropic chat model (ChatClient + auto-configuration) -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
+            <artifactId>spring-ai-starter-model-anthropic</artifactId>
         </dependency>
     </dependencies>
 
